@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CONTAINER_NAME: build-ci
+      run: |
+        docker build --tag ghcr.io/freaxnx01/build-ci/${CONTAINER_NAME}:latest .
+        docker push ghcr.io/freaxnx01/build-ci/${CONTAINER_NAME}:latest
